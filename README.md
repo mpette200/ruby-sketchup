@@ -1,6 +1,8 @@
 # ruby-sketchup
 Ruby plugins for sketchup.
-
+To install copy into plugins folder, typically this is:
+`C:\Users\XXXXXXX\AppData\Roaming\Google\Google SketchUp 8\SketchUp\Plugins`  
+where XXXXXXX is replaced by your username
 
 ### fds_obs
 FDS is a fire and smoke modelling analysis software. (https://pages.nist.gov/fds-smv/)
