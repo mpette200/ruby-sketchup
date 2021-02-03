@@ -5,7 +5,7 @@ require 'sketchup.rb'
 
 module MPETT
   module IESGEM
-    def self.output(group)
+    def self.output(group, out)
       # Intro Start
       
       # COM GEM data file created by MP
@@ -24,19 +24,19 @@ module MPETT
       # IES *** name ***
 
       # intro clauses
-      puts "LAYER"
-      puts "1"
-      puts "COLOUR"
-      puts "0"
-      puts "CATEGORY"
-      puts "1"
-      puts "TYPE"
-      puts "1"
-      puts "SUBTYPE"
-      puts "2001"
-      puts "COLOURRGB"
-      puts "16711680"
-      puts "IES #{group.name}"
+      out.push("LAYER")
+      out.push("1")
+      out.push("COLOUR")
+      out.push("0")
+      out.push("CATEGORY")
+      out.push("1")
+      out.push("TYPE")
+      out.push("1")
+      out.push("SUBTYPE")
+      out.push("2001")
+      out.push("COLOURRGB")
+      out.push("16711680")
+      out.push("IES #{group.name}")
       
       # turn group into ies gemfile
       # Nvertices Nfaces 0
@@ -68,33 +68,35 @@ module MPETT
         end # if
       }
       # output points to console
-      puts "#{vertices.length} #{faces.length} 0"
+      out.push("#{vertices.length} #{faces.length} 0")
       vertices.each { |v|
         x = (group.transformation * v.position).x.to_m
         y = (group.transformation * v.position).y.to_m
         z = (group.transformation * v.position).z.to_m
-        puts "    %.6f     %.6f     %.6f" % [x,y,z]
+        out.push("    %.6f     %.6f     %.6f" % [x,y,z])
       }
       faces.each { |f|
-        print "#{f.length} "
+        faces_out = ["#{f.length} "]
         f.each { |point|
-          print "#{point} "
+          faces_out.push("#{point} ")
         }
-        print "\n"
-        puts 0
+        out.push(faces_out.join(""))
+        out.push("0")
       }
       return "done"
     end # output
 
     def self.activate
-      puts "COM GEM data file created by MP"
+      out = []
+      out.push("COM GEM data file created by MP")
       model = Sketchup.active_model
       selection = model.selection
       selection.each { |g|
         if g.is_a? Sketchup::Group
-          output(g)
+          output(g, out)
         end
       }
+      puts "#{out.join("\n")}"
     end
 
     unless file_loaded?(__FILE__)
