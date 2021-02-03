@@ -6,6 +6,38 @@ require 'sketchup.rb'
 module MPETT
   module IESGEM
     def self.output(group)
+      # Intro Start
+      
+      # COM GEM data file created by MP
+      # LAYER
+      # 1
+      # COLOUR
+      # 0
+      # CATEGORY
+      # 1
+      # TYPE
+      # 1
+      # SUBTYPE
+      # 2001
+      # COLOURRGB
+      # 16711680
+      # IES *** name ***
+
+      # intro clauses
+      puts "LAYER"
+      puts "1"
+      puts "COLOUR"
+      puts "0"
+      puts "CATEGORY"
+      puts "1"
+      puts "TYPE"
+      puts "1"
+      puts "SUBTYPE"
+      puts "2001"
+      puts "COLOURRGB"
+      puts "16711680"
+      puts "IES #{group.name}"
+      
       # turn group into ies gemfile
       # Nvertices Nfaces 0
       #    x1    y1    z1
@@ -55,6 +87,7 @@ module MPETT
     end # output
 
     def self.activate
+      puts "COM GEM data file created by MP"
       model = Sketchup.active_model
       selection = model.selection
       selection.each { |g|
